@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import todoRoute from './todo.route';
 import userRoute from './user.route';
 
 type CommonRoute = {
@@ -14,11 +13,6 @@ type CommonRoute = {
 // All of the routes you've created within the 'routes' folder
 // must be registered here, and it'll bind it to the server.
 const allRoutes: CommonRoute[] = [
-    {
-        version: 1,
-        path: 'todos',
-        router: todoRoute
-    },
     {
         version: 1,
         path: 'users',
