@@ -48,7 +48,7 @@ async function addUser(req: Request, res: Response) {
         return sendResponse(res, {
             success: false,
             statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-            message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR)
+            message: 'Unexpected server error'
         });
     }
 }
@@ -106,7 +106,7 @@ async function loginUser(req: Request, res: Response) {
         return sendResponse(res, {
             success: false,
             statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-            message: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR)
+            message: 'Unexpected server error'
         });
     }
 }
