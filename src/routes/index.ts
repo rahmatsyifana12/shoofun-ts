@@ -17,11 +17,6 @@ const allRoutes: CommonRoute[] = [
         version: 1,
         path: 'users',
         router: usersRoute
-    },
-    {
-        version: 1,
-        path: 'users',
-        router: usersRoute
     }
 ];
 
