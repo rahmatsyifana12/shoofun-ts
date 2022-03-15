@@ -14,9 +14,9 @@ export default class Product extends BaseEntity {
     @Column({ length: 256 })
     description!: string;
 
-    @Column()
+    @Column({ type: 'decimal', scale: 2 })
     weight!: number;
 
-    @Column({ name: 'is_deleted' })
+    @Column({ name: 'is_deleted', default: false })
     isDeleted!: boolean;
 }
