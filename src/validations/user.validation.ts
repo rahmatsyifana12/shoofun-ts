@@ -1,5 +1,16 @@
 import joi from 'joi';
 
+type loginUserType = {
+    email: string,
+    password: string
+};
+
+type registerUserType = loginUserType & {
+    displayName: string,
+    address: string,
+    phoneNumber: string
+};
+
 const newUserSchema = joi.object({
     email: joi.string()
         .max(64)
@@ -71,4 +82,4 @@ const loginUserSchema = joi.object({
         .required()
 });
 
-export { newUserSchema, loginUserSchema };
+export { newUserSchema, loginUserSchema, registerUserType, loginUserType };

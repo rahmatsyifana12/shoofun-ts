@@ -5,11 +5,15 @@ import { sendResponse } from '../utils/api.util';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 
 import User from '../entities/user.entity';
+import {
+    loginUserType,
+    registerUserType
+} from '../validations/user.validation';
 
 let refreshTokens = [];
 
 async function addUser(req: Request, res: Response) {
-    const { body } = req;
+    const body = req.body as registerUserType;
 
     const user = User.create({
         email: body.email,
@@ -50,7 +54,7 @@ async function addUser(req: Request, res: Response) {
 }
 
 async function loginUser(req: Request, res: Response) {
-    const { body } = req;
+    const body = req.body as loginUserType;
     const foundUser = await User.findOne({ where: { email: body.email } });
 
     if (!foundUser) {
@@ -72,8 +76,8 @@ async function loginUser(req: Request, res: Response) {
 
         const accessToken = jwt.sign(
             {
-                userId: body.id,
-                email: body.email
+                userId: foundUser.id,
+                email: foundUser.email
             },
             process.env.JWT_ACCESS_SECRET!,
             {
@@ -83,8 +87,8 @@ async function loginUser(req: Request, res: Response) {
 
         const refreshToken = jwt.sign(
             {
-                userId: body.id,
-                email: body.email
+                userId: foundUser.id,
+                email: foundUser.email
             },
             process.env.JWT_REFRESH_SECRET!
         );
