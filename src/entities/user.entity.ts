@@ -11,12 +11,12 @@ export default class User extends BaseEntity {
     @Column({ length: 256 })
     password!: string;
 
-    @Column({ length: 256 })
+    @Column({ name: 'display_name', length: 256 })
     displayName!: string;
 
     @Column({ length: 256 })
     address!: string;
 
-    @Column({ length: 256 })
+    @Column({ name: 'phone_number', length: 256 })
     phoneNumber!: string;
 }

@@ -17,6 +17,6 @@ export default class Product extends BaseEntity {
     @Column()
     weight!: number;
 
-    @Column()
-    is_deleted!: boolean;
+    @Column({ name: 'is_deleted' })
+    isDeleted!: boolean;
 }
