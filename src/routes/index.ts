@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import userRoute from './user.route';
+import usersRoute from './user.route';
 
 type CommonRoute = {
     /** the current routing version (starts at 1) */
@@ -16,7 +16,12 @@ const allRoutes: CommonRoute[] = [
     {
         version: 1,
         path: 'users',
-        router: userRoute
+        router: usersRoute
+    },
+    {
+        version: 1,
+        path: 'users',
+        router: usersRoute
     }
 ];
 
