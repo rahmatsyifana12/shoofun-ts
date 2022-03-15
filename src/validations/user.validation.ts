@@ -1,6 +1,6 @@
 import joi from 'joi';
 
-export const newUserSchema = joi.object({
+const newUserSchema = joi.object({
     email: joi.string()
         .max(64)
         .email()
@@ -45,3 +45,30 @@ export const newUserSchema = joi.object({
 
         .required()
 });
+
+const loginUserSchema = joi.object({
+    email: joi.string()
+        .max(64)
+        .email()
+        .required(),
+
+    password: joi.string()
+        .min(8)
+        .max(64)
+
+        .regex(/[0-9]/)
+        .rule({ message: '{#label} requires at least a number' })
+
+        .regex(/[a-z]/)
+        .rule({ message: '{#label} requires at least a lowercase character' })
+
+        .regex(/[A-Z]/)
+        .rule({ message: '{#label} requires at least an uppercase character' })
+
+        .regex(/[^a-zA-Z0-9]/)
+        .rule({ message: '{#label} requires at least a special character' })
+
+        .required()
+});
+
+export { newUserSchema, loginUserSchema };
