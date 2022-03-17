@@ -14,16 +14,8 @@ let refreshTokens = [];
 
 async function addUser(req: Request, res: Response) {
     const body = req.body as registerUserType;
+    const foundUser = await User.findOne({ where: { email: body.email } });
 
-    const user = User.create({
-        email: body.email,
-        password: body.password,
-        displayName: body.displayName,
-        address: body.address,
-        phoneNumber: body.phoneNumber
-    });
-
-    const foundUser = await User.findOne({ where: { email: user.email } });
     if (foundUser) {
         return sendResponse(res, {
             success: false,
@@ -33,12 +25,12 @@ async function addUser(req: Request, res: Response) {
     }
 
     const hashedPassword = bcrypt.hashSync(
-        user.password,
+        body.password,
         parseInt(process.env.SALT_ROUNDS!)
     );
+    const user = User.create({ ...body, password: hashedPassword });
 
     try {
-        user.password = hashedPassword;
         await User.save(user);
 
         return sendResponse(res, {

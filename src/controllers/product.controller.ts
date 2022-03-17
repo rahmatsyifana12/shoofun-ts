@@ -9,12 +9,7 @@ import { newProductType } from '../validations/product.validation';
 async function addProduct(req: Request, res: Response) {
     const body = req.body as newProductType;
 
-    const product = Product.create({
-        name: body.name,
-        price: body.price,
-        description: body.description,
-        weight: body.weight
-    });
+    const product = Product.create(body);
 
     try {
         await product.save();
