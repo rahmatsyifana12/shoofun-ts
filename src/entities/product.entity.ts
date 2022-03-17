@@ -24,7 +24,7 @@ export default class Product extends BaseEntity {
     isDeleted!: boolean;
 
     @OneToMany(() => CartItem, (item) => item.cart)
-    cartItems!: CartItem;
+    cartItems!: CartItem[];
 
     toFilter() {
         const clone = { ...this } as Record<string, unknown>;
