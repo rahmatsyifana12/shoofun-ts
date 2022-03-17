@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
 import { sendResponse } from '../utils/api.util';
 import { StatusCodes } from 'http-status-codes';
 
@@ -8,7 +7,6 @@ import { newProductType } from '../validations/product.validation';
 
 export async function addProduct(req: Request, res: Response) {
     const body = req.body as newProductType;
-
     const product = Product.create(body);
 
     try {
