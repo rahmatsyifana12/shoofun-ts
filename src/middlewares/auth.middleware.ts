@@ -15,9 +15,9 @@ async function authHandler(req: Request, res: Response, next: NextFunction) {
             });
         }
 
-        const accessToken = authHeader.split(' ')[1];
+        const token = authHeader.split(' ')[1];
 
-        jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET!);
+        jwt.verify(token, process.env.JWT_ACCESS_SECRET!);
 
         return next();
     } catch (error) {

@@ -33,16 +33,16 @@ export enum CartStatus {
 }
 
 @Entity({ name: 'carts' })
-export default class Cart extends BaseEntity {
+export class Cart extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
+
+    @Column({ type: 'bit', default: CartStatus.IN_USE })
+    status!: CartStatus;
 
     @ManyToOne(() => User)
     @JoinColumn({ name: 'user_id' })
     user!: User;
-
-    @Column({ type: 'bit' })
-    status!: CartStatus;
 
     @OneToMany(() => CartItem, (item) => item.cart)
     cartItems!: CartItem[];
