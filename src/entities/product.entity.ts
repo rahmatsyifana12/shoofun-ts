@@ -1,4 +1,7 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn
+} from 'typeorm';
+import CartItem from './carts/cart-item.entity';
 
 @Entity({ name: 'products' })
 export default class Product extends BaseEntity {
@@ -19,6 +22,9 @@ export default class Product extends BaseEntity {
 
     @Column({ name: 'is_deleted', default: false })
     isDeleted!: boolean;
+
+    @OneToMany(() => CartItem, (item) => item.cart)
+    cartItems!: CartItem;
 
     toFilter() {
         const clone = { ...this } as Record<string, unknown>;

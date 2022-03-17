@@ -5,6 +5,7 @@ import {
 } from 'typeorm';
 
 import User from '../user.entity';
+import CartItem from './cart-item.entity';
 
 export enum CartStatus {
     /**
@@ -42,4 +43,7 @@ export default class Cart extends BaseEntity {
 
     @Column({ type: 'bit' })
     status!: CartStatus;
+
+    @OneToMany(() => CartItem, (item) => item.cart)
+    cartItems!: CartItem[];
 }
