@@ -1,13 +1,13 @@
 import joi from 'joi';
 
-type newProductType = {
+export type newProductType = {
     name: string,
     price: number,
     description: string,
     weight: number
 }
 
-const newProductSchema = joi.object({
+export const newProductSchema = joi.object({
     name: joi.string()
         .min(3)
         .max(64)
@@ -25,4 +25,8 @@ const newProductSchema = joi.object({
         .required()
 });
 
-export { newProductSchema, newProductType };
+export const productIdSchema = joi.object({
+    productId: joi.number()
+        .min(1)
+        .required()
+});

@@ -6,7 +6,7 @@ import { StatusCodes } from 'http-status-codes';
 import Product from '../entities/product.entity';
 import { newProductType } from '../validations/product.validation';
 
-async function addProduct(req: Request, res: Response) {
+export async function addProduct(req: Request, res: Response) {
     const body = req.body as newProductType;
 
     const product = Product.create(body);
@@ -25,7 +25,7 @@ async function addProduct(req: Request, res: Response) {
     }
 }
 
-async function getAllProducts(req: Request, res: Response) {
+export async function getAllProducts(req: Request, res: Response) {
     try {
         const products = await Product.find({ where: { isDeleted: false } });
 
@@ -44,8 +44,8 @@ async function getAllProducts(req: Request, res: Response) {
     }
 }
 
-async function getProductById(req: Request, res: Response) {
-    const productId: number = parseInt(req.params.productId);
+export async function getProductById(req: Request, res: Response) {
+    const productId = parseInt(req.params.productId);
 
     try {
         const product = await Product.findOne(
@@ -80,4 +80,38 @@ async function getProductById(req: Request, res: Response) {
     }
 }
 
-export default { addProduct, getAllProducts, getProductById };
+export async function deleteProductById(req: Request, res: Response) {
+    const productId = parseInt(req.params.productId);
+
+    try {
+        const product = await Product.findOne(
+            {
+                where: {
+                    id: productId,
+                    isDeleted: false
+                }
+            }
+        );
+
+        if (!product) {
+            return sendResponse(res, {
+                success: false,
+                statusCode: StatusCodes.NOT_FOUND,
+                message: 'Product not found'
+            });
+        }
+
+        product.isDeleted = true;
+        product.save();
+
+        return sendResponse(res, {
+            message: 'Product removed successfully'
+        });
+    } catch (error) {
+        return sendResponse(res, {
+            success: false,
+            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            message: 'Unexpected server error'
+        });
+    }
+}
