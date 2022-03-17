@@ -6,6 +6,8 @@ import validateHandler from '../middlewares/validate.middleware';
 
 const router = Router();
 
-router.post('add', validateHandler(newProductSchema), controller.addProduct);
+router.get('/', controller.getAllProducts);
+
+router.post('/add', validateHandler(newProductSchema), controller.addProduct);
 
 export default router;

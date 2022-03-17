@@ -19,4 +19,11 @@ export default class Product extends BaseEntity {
 
     @Column({ name: 'is_deleted', default: false })
     isDeleted!: boolean;
+
+    toFilter() {
+        const clone = { ...this } as Record<string, unknown>;
+        delete clone.isDeleted;
+
+        return clone;
+    }
 }

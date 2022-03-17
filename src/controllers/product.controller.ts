@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { sendResponse } from '../utils/api.util';
-import { StatusCodes, getReasonPhrase } from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
 
 import Product from '../entities/product.entity';
 import { newProductType } from '../validations/product.validation';
@@ -31,4 +30,23 @@ async function addProduct(req: Request, res: Response) {
     }
 }
 
-export default { addProduct };
+async function getAllProducts(req: Request, res: Response) {
+    try {
+        const products = await Product.find({ where: {isDeleted: false }});
+
+        return sendResponse(res, {
+            message: 'Found all products',
+            data: {
+                products: products.map((product) => product.toFilter())
+            }
+        });
+    } catch (error) {
+        return sendResponse(res, {
+            success: false,
+            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            message: 'Unexpected server error'
+        });
+    }
+}
+
+export default { addProduct, getAllProducts };
