@@ -32,7 +32,7 @@ async function addProduct(req: Request, res: Response) {
 
 async function getAllProducts(req: Request, res: Response) {
     try {
-        const products = await Product.find({ where: {isDeleted: false }});
+        const products = await Product.find({ where: { isDeleted: false } });
 
         return sendResponse(res, {
             message: 'Found all products',
@@ -49,4 +49,40 @@ async function getAllProducts(req: Request, res: Response) {
     }
 }
 
-export default { addProduct, getAllProducts };
+async function getProductById(req: Request, res: Response) {
+    const productId: number = parseInt(req.params.productId);
+
+    try {
+        const product = await Product.findOne(
+            {
+                where: {
+                    id: productId,
+                    isDeleted: false
+                }
+            }
+        );
+
+        if (!product) {
+            return sendResponse(res, {
+                success: false,
+                statusCode: StatusCodes.NOT_FOUND,
+                message: 'Product not found'
+            });
+        }
+
+        return sendResponse(res, {
+            message: 'Product found',
+            data: {
+                product: product.toFilter()
+            }
+        });
+    } catch (error) {
+        return sendResponse(res, {
+            success: false,
+            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            message: 'Unexpected server error'
+        });
+    }
+}
+
+export default { addProduct, getAllProducts, getProductById };
