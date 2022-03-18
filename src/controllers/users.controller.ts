@@ -73,7 +73,7 @@ async function loginUser(req: Request, res: Response) {
             },
             process.env.JWT_ACCESS_SECRET!,
             {
-                expiresIn: '15m'
+                expiresIn: '60m'
             }
         );
 

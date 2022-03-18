@@ -60,3 +60,37 @@ export async function addProductToCart(req: Request, res: Response) {
         });
     }
 }
+
+export async function getAllProductsInCart(req: Request, res: Response) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader!.split(' ')[1];
+    const userId = (jwt.decode(token) as jwt.JwtPayload).userId;
+
+    try {
+        const products = await Cart.createQueryBuilder('cart')
+            .select('product.id', 'id')
+            .addSelect('name')
+            .addSelect('price')
+            .addSelect('quantity')
+            .innerJoin('cart.cartItems', 'cart_item')
+            .innerJoin('cart_item.product', 'product')
+            .where('cart.user_id = :userId', { userId })
+            .getRawMany();
+
+        console.log(products);
+
+        return sendResponse(res, {
+            message: 'Found all products in cart',
+            data: {
+                products
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        return sendResponse(res, {
+            success: false,
+            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            message: 'Unexpected server error'
+        });
+    }
+}
