@@ -34,22 +34,25 @@ export async function addProductToCart(req: Request, res: Response) {
 
     const user = await User.findOne({ where: { id: userId } });
 
-    const cart = Cart.create({ user: user });
+    const cart = Cart.create({ user });
     const cartItem = CartItem.create(
         {
-            cart: cart,
-            product: product
+            product
         }
     );
 
     try {
         await Cart.save(cart);
+
+        cartItem.cart = cart;
+
         await CartItem.save(cartItem);
 
         return sendResponse(res, {
             message: 'Successfully added product to cart'
         });
     } catch (error) {
+        console.log(error);
         return sendResponse(res, {
             success: false,
             statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
