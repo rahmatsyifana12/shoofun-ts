@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
 import { sendResponse } from '../utils/api.util';
 import { StatusCodes } from 'http-status-codes';
-import jwt from 'jsonwebtoken';
 
-import { Cart, CartStatus } from '../entities/carts/cart.entity';
+import { Cart } from '../entities/carts/cart.entity';
 import CartItem from '../entities/carts/cart-item.entity';
 import Product from '../entities/product.entity';
 import User from '../entities/user.entity';
