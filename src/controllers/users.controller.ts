@@ -10,7 +10,7 @@ import {
     registerUserType
 } from '../validations/user.validation';
 
-let refreshTokens = [];
+let refreshTokens: string[] = [];
 
 async function addUser(req: Request, res: Response) {
     const body = req.body as registerUserType;
@@ -103,4 +103,23 @@ async function loginUser(req: Request, res: Response) {
     }
 }
 
-export default { addUser, loginUser };
+async function logoutUser(req: Request, res: Response) {
+    const authHeader = req.headers['authorization'];
+    const refreshToken = authHeader!.split(' ')[1];
+
+    try {
+        refreshTokens = refreshTokens.filter((rt) => rt !== refreshToken);
+
+        return sendResponse(res, {
+            message: 'Logged out of session successfully'
+        });
+    } catch (error) {
+        return sendResponse(res, {
+            success: false,
+            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            message: 'Unexpected server error'
+        });
+    }
+}
+
+export default { addUser, loginUser, logoutUser };

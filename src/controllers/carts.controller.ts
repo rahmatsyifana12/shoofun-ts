@@ -77,8 +77,6 @@ export async function getAllProductsInCart(req: Request, res: Response) {
             .where('cart.user_id = :userId', { userId })
             .getRawMany();
 
-        console.log(products);
-
         return sendResponse(res, {
             message: 'Found all products in cart',
             data: {
