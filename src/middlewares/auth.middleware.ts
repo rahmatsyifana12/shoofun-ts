@@ -6,18 +6,19 @@ import { StatusCodes } from 'http-status-codes';
 async function authHandler(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers['authorization'];
 
-    try {
-        if (!authHeader || !authHeader.includes('Bearer')) {
-            return sendResponse(res, {
-                success: false,
-                statusCode: StatusCodes.UNAUTHORIZED,
-                message: 'Unauthorized error'
-            });
-        }
+    if (!authHeader || !authHeader.includes('Bearer')) {
+        return sendResponse(res, {
+            success: false,
+            statusCode: StatusCodes.UNAUTHORIZED,
+            message: 'Unauthorized error'
+        });
+    }
 
+    try {
         const token = authHeader.split(' ')[1];
 
-        jwt.verify(token, process.env.JWT_ACCESS_SECRET!);
+        const payload = jwt.verify(token, process.env.JWT_ACCESS_SECRET!);
+        req.body.$auth = payload;
 
         return next();
     } catch (error) {

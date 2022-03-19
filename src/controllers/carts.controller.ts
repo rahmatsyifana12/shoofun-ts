@@ -28,12 +28,8 @@ export async function addProductToCart(req: Request, res: Response) {
         });
     }
 
-    const authHeader = req.headers['authorization'];
-    const token = authHeader!.split(' ')[1];
-    const userId = (jwt.decode(token) as jwt.JwtPayload).userId;
-
+    const { userId } = req.body.$auth;
     const user = await User.findOne({ where: { id: userId } });
-
     const cart = Cart.create({ user });
     const cartItem = CartItem.create(
         {
@@ -62,9 +58,7 @@ export async function addProductToCart(req: Request, res: Response) {
 }
 
 export async function getAllProductsInCart(req: Request, res: Response) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader!.split(' ')[1];
-    const userId = (jwt.decode(token) as jwt.JwtPayload).userId;
+    const { userId } = req.body.$auth;
 
     try {
         const products = await Cart.createQueryBuilder('cart')
