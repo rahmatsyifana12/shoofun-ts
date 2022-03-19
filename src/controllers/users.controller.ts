@@ -122,4 +122,54 @@ async function logoutUser(req: Request, res: Response) {
     }
 }
 
-export default { addUser, loginUser, logoutUser };
+async function refreshAccessToken(req: Request, res: Response) {
+    const authHeader = req.headers['authorization'];
+    const refreshToken = authHeader!.split(' ')[1];
+
+    if (!refreshToken || !refreshTokens.includes(refreshToken)) {
+        return sendResponse(res, {
+            success: false,
+            statusCode: StatusCodes.UNAUTHORIZED,
+            message: 'Unauthorized error'
+        });
+    }
+
+    jwt.verify(
+        refreshToken,
+        process.env.JWT_REFRESH_SECRET!,
+        { complete: true },
+        async (err, userPayload) => {
+            if (err) {
+                return sendResponse(res, {
+                    success: false,
+                    statusCode: StatusCodes.UNAUTHORIZED,
+                    message: 'Unauthorized error'
+                });
+            }
+
+            const user = userPayload as jwt.JwtPayload;
+
+            const accessToken = jwt.sign(
+                {
+                    userId: user.userId,
+                    email: user.email
+                },
+                process.env.JWT_ACCESS_SECRET!,
+                {
+                    expiresIn: '60m'
+                }
+            );
+
+            return sendResponse(res, {
+                message: 'Successfully refresh a new access token',
+                data: {
+                    accessToken
+                }
+            });
+        }
+    );
+}
+
+export default {
+    addUser, loginUser, logoutUser, refreshAccessToken
+};
