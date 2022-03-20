@@ -34,6 +34,7 @@ export enum CartStatus {
 
 @Entity({ name: 'carts' })
 export class Cart extends BaseEntity {
+
     @PrimaryGeneratedColumn()
     id!: number;
 
@@ -46,4 +47,5 @@ export class Cart extends BaseEntity {
 
     @OneToMany(() => CartItem, (item) => item.cart)
     cartItems!: CartItem[];
+
 }

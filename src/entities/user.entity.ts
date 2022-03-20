@@ -5,6 +5,7 @@ import { Cart } from './carts/cart.entity';
 
 @Entity({ name: 'users' })
 export default class User extends BaseEntity {
+
     @PrimaryGeneratedColumn()
     id!: number;
 
@@ -25,4 +26,5 @@ export default class User extends BaseEntity {
 
     @OneToMany(() => Cart, (cart) => cart.user)
     carts!: Cart[];
+
 }

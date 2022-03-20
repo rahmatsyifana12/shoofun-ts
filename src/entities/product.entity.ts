@@ -5,6 +5,7 @@ import CartItem from './carts/cart-item.entity';
 
 @Entity({ name: 'products' })
 export default class Product extends BaseEntity {
+
     @PrimaryGeneratedColumn()
     id!: number;
 
@@ -32,4 +33,5 @@ export default class Product extends BaseEntity {
 
         return clone;
     }
+
 }

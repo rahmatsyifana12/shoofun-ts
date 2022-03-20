@@ -4,7 +4,7 @@ import {
     productIdSchema
 } from '../validations/product.validation';
 
-import * as controller from '../controllers/products.controller';
+import * as controller from '../controllers/product.controller';
 import validateHandler from '../middlewares/validate.middleware';
 
 const router = Router();

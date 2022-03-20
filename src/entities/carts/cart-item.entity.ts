@@ -7,6 +7,7 @@ import Product from '../product.entity';
 
 @Entity({ name: 'cart_items' })
 export default class CartItem extends BaseEntity {
+
     @ManyToOne(
         () => Cart,
         (cart) => cart.cartItems,
@@ -25,4 +26,5 @@ export default class CartItem extends BaseEntity {
 
     @Column({ type: 'integer', default: 1 })
     quantity!: number;
+
 }
