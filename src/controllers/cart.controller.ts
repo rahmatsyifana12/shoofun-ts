@@ -29,6 +29,7 @@ export async function addProductToCart(req: Request, res: Response) {
 
     const { userId } = req.body.$auth;
     const user = await User.findOne({ where: { id: userId } });
+
     const cart = Cart.create({ user });
     const cartItem = CartItem.create(
         {
