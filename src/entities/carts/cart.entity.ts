@@ -38,7 +38,7 @@ export class Cart extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Column({ type: 'bit', default: CartStatus.IN_USE })
+    @Column({ type: 'smallint', default: CartStatus.IN_USE })
     status!: CartStatus;
 
     @ManyToOne(() => User)
