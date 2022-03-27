@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { sendResponse } from '../utils/api.util';
 import { StatusCodes } from 'http-status-codes';
 
-import { Cart } from '../entities/carts/cart.entity';
+import { Cart, CartStatus } from '../entities/carts/cart.entity';
 import CartItem from '../entities/carts/cart-item.entity';
 import Product from '../entities/product.entity';
 import User from '../entities/user.entity';
@@ -30,19 +30,29 @@ export async function addProductToCart(req: Request, res: Response) {
     const { userId } = req.body.$auth;
     const user = await User.findOne({ where: { id: userId } });
 
-    const cart = Cart.create({ user });
-    const cartItem = CartItem.create(
-        {
-            product
+    let cart = await Cart.findOne({
+        where: {
+            user,
+            status: CartStatus.IN_USE
         }
-    );
+    });
+    if (!cart) {
+        cart = Cart.create({ user });
+    }
+
+    let cartItem = await CartItem.findOne({ where: { cart, product } });
+    if (!cartItem) {
+        cartItem = CartItem.create({ product });
+    } else {
+        cartItem.quantity++;
+    }
 
     try {
         await Cart.save(cart);
 
         cartItem.cart = cart;
 
-        await CartItem.save(cartItem);
+        await CartItem.save(cartItem!);
 
         return sendResponse(res, {
             message: 'Successfully added product to cart'
