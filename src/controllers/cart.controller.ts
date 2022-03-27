@@ -58,6 +58,7 @@ export async function addProductToCart(req: Request, res: Response) {
 
 export async function getAllProductsInCart(req: Request, res: Response) {
     const { userId } = req.body.$auth;
+    const status = false;
 
     try {
         const products = await Cart.createQueryBuilder('cart')
@@ -67,7 +68,10 @@ export async function getAllProductsInCart(req: Request, res: Response) {
             .addSelect('quantity')
             .innerJoin('cart.cartItems', 'cart_item')
             .innerJoin('cart_item.product', 'product')
-            .where('cart.user_id = :userId', { userId })
+            .where(
+                `cart.user_id = :userId AND
+                 product.is_deleted = :status`, { userId, status }
+            )
             .getRawMany();
 
         return sendResponse(res, {
