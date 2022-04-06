@@ -14,7 +14,8 @@ router.get('/:productId', controller.getProductById);
 
 router.post('/add',
     validateHandler(newProductSchema),
-    controller.addProduct);
+    controller.addProduct
+);
 
 router.delete('/delete/:productId',
     validateHandler(productIdSchema, true),
