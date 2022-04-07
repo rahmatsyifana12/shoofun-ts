@@ -83,7 +83,7 @@ async function loginUser(req: Request, res: Response) {
                 userId: foundUser.id,
                 email: foundUser.email
             },
-            process.env.JWT_REFRESH_SECRET!
+            config.jwt.refreshSecret
         );
 
         refreshTokens.push(refreshToken);
@@ -137,7 +137,7 @@ async function refreshAccessToken(req: Request, res: Response) {
 
     jwt.verify(
         refreshToken,
-        process.env.JWT_REFRESH_SECRET!,
+        config.jwt.refreshSecret,
         { complete: true },
         async (err, userPayload) => {
             if (err) {
