@@ -12,6 +12,6 @@ app.use(express.json());
 app.use(cors());
 
 // bind global router to all routes
-app.use('/', globalRouter);
+// app.use('/', globalRouter);
 
 export default app;
