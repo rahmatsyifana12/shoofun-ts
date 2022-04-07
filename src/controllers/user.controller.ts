@@ -9,6 +9,7 @@ import {
     loginUserType,
     registerUserType
 } from '../validations/user.validation';
+import config from '../config';
 
 let refreshTokens: string[] = [];
 
@@ -26,7 +27,7 @@ async function addUser(req: Request, res: Response) {
 
     const hashedPassword = bcrypt.hashSync(
         body.password,
-        parseInt(process.env.SALT_ROUNDS!)
+        config.saltRounds
     );
     const user = User.create({ ...body, password: hashedPassword });
 
