@@ -72,7 +72,7 @@ async function loginUser(req: Request, res: Response) {
                 userId: foundUser.id,
                 email: foundUser.email
             },
-            process.env.JWT_ACCESS_SECRET!,
+            config.jwt.accessSecret,
             {
                 expiresIn: '60m'
             }
@@ -155,7 +155,7 @@ async function refreshAccessToken(req: Request, res: Response) {
                     userId: user.userId,
                     email: user.email
                 },
-                process.env.JWT_ACCESS_SECRET!,
+                config.jwt.accessSecret,
                 {
                     expiresIn: '60m'
                 }

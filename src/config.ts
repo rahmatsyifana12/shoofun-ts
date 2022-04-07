@@ -11,8 +11,8 @@ const config = {
         password: env.DB_PASSWORD!
     },
     jwt: {
-        accessSecret: env.JWT_ACCESS_SECRET,
-        refreshSecret: env.JWT_REFRESH_SECRET,
+        accessSecret: env.JWT_ACCESS_SECRET!,
+        refreshSecret: env.JWT_REFRESH_SECRET!,
 
         accessExpire: '15m',
         refreshExpire: '30d'
