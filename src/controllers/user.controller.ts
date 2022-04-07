@@ -74,7 +74,7 @@ async function loginUser(req: Request, res: Response) {
             },
             config.jwt.accessSecret,
             {
-                expiresIn: '60m'
+                expiresIn: config.jwt.accessExpire
             }
         );
 
@@ -157,7 +157,7 @@ async function refreshAccessToken(req: Request, res: Response) {
                 },
                 config.jwt.accessSecret,
                 {
-                    expiresIn: '60m'
+                    expiresIn: config.jwt.accessExpire
                 }
             );
 
